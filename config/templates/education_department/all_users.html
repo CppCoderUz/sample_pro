@@ -1,0 +1,58 @@
+{% extends 'education_department/base.html' %}
+
+{% block body_static %}
+    {% include 'static_plugins/data_table_body.html' %}
+{% endblock %}
+{% block head_static %}
+    {% include 'static_plugins/data_table_head.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-6">
+              <h3 class="card-title"> Ushbu sahifada barcha nazoratchilar ro'yxati berilgan </h3>
+            </div>
+            <div class="col-6">
+                <a href="{% url 'education_department:add_user' %}" class="btn btn-sm btn-primary position-relative" style="width: 100%;">
+                    Nazoratchi qo'shish
+                </a>
+            </div>
+        </div>
+        </div>
+        <div class="card-body">
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th> Ism </th>
+              <th> Familya </th>
+              <th> Login / Xodim ID </th>
+              <th> email </th>
+              <th> Lavozimi </th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td> {{ i.user.first_name }} </td>
+                    <td> {{ i.user.last_name }} </td>
+                    <td> {{ i.user.username }} </td>
+                    <td> {{ i.user.email }} </td>
+                    <td> {{ i.lavozim }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,64 @@
+{% extends 'education_department/base.html' %}
+
+{% block body_static %}
+    {% include 'static_plugins/data_table_body.html' %}
+{% endblock %}
+{% block head_static %}
+    {% include 'static_plugins/data_table_head.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-6">
+                    <h3 class="card-title"> Ushbu qismda barcha fakultetlar ro'yxati berilgan </h3>
+                </div>
+                <div class="col-6">
+                    <a href="{% url 'education_department:add_cafedra' %}" class="btn btn-sm btn-primary position-relative" style="width: 100%;">
+                        Kafedra qo'shish
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th> Kafedra nomi </th>
+              <th> Kafedra mudiri </th>
+              <th> Fakulteti </th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td>
+                        <a href="#">
+                            {{ i.name }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ i.manager.user.first_name }} {{ i.manager.user.last_name }}
+                    </td>
+                    <td>
+                        <a href="#">
+                            {{ i.faculty.name }}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+
+

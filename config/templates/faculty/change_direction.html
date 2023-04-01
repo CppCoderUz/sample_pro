@@ -1,0 +1,53 @@
+{% extends 'faculty/base.html' %}
+{% block body_static %}
+    {% include 'static_plugins/form_body.html' %}
+{% endblock %}
+{% block head_static %}
+    {% include 'static_plugins/form_head.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+      <div class="card card-primary">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"><h3 class="card-title"> Barcha bandlar to'ldirilishi shart ! </h3></div>
+            <div class="col-4"><div class="text-danger">{{ form.errors }}</div></div>
+            <form action="{% url 'faculty:delete_direction' object.pk %}" method="POST" class="col-4"> 
+                {% csrf_token %}
+                <button type="submit" style="width: 100%;" class="btn btn-danger">O'chirish</button>
+            </form>
+        </div>
+        </div>
+        <form method="POST"> {% csrf_token %}
+          <div class="card-body row">
+            <div class="form-group col-md-6">
+                <label for="exampleInputEmail1"> Yo'nalish nomini kiriting </label>
+                {{ form.name }}
+            </div>
+            <div class="form-group col-md-6">
+                <label for="exampleInputEmail1"> Yo'nalish kodini kiriting </label>
+                {{ form.code }}
+            </div>
+            <div class="form-group col-md-6">
+                <label for="exampleInputEmail1"> Semesterlar sonini kiriting </label>
+                {{ form.semester_number }}
+            </div>
+            <div class="form-group col-md-6 col-12">
+                <label for="exampleSelectRounded0"> Yo'nalish tilini tanlang   </label>
+                {{ form.language }}
+            </div>
+            <div class="form-group col-md-6 col-12">
+                <label for="exampleSelectRounded0"> Yo'nalish tilini tanlang   </label>
+                {{ form.study_form }}
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary"> Saqlash </button>
+          </div>
+        </form>
+      </div>
+    </div>  
+  </div>
+{% endblock %}

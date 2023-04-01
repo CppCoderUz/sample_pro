@@ -1,0 +1,55 @@
+{% extends 'faculty/base.html' %}
+{% block body_static %}
+    {% include 'static_plugins/data_table_body.html' %}
+{% endblock %}
+{% block head_static %}
+    {% include 'static_plugins/data_table_head.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-6">
+                    <h3 class="card-title"> Ushbu sahifada {{ data.faculty.name }} fakultetiga tegishli guruhlar ro'yxati berilgan </h3>
+                </div>
+                <div class="col-6">
+                    <a href="{% url 'faculty:add_group' %}" class="btn btn-sm btn-primary position-relative" style="width: 100%;">
+                        Guruh qo'shish
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th> Guruh nomi </th>
+              <th> Guruh ta'lim tili </th>
+              <th> Guruh ta'lim shakli </th>
+              <th> Yo'nalishi </th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for i in object %}
+                <tr>
+                    <td><a href="{% url 'faculty:change_group' i.pk %}">{{ i.name }} </a> </td>
+                    <td> {{ i.direction.language }} </td>
+                    <td> {{ i.direction.study_form }} </td>
+                    <td> {{ i.direction.name }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+
+

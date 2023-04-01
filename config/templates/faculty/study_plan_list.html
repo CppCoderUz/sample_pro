@@ -1,0 +1,65 @@
+{% extends 'faculty/base.html' %}
+{% load range %}
+{% block head_static %}
+    {% include 'static_plugins/simple_tables_head.html' %}
+{% endblock %}
+
+{% block body_static %}
+    {% include 'static_plugins/simple_tables_body.html' %}
+{% endblock %}
+
+
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"> Yo'nalishlar ro'yxati </h3>
+
+          <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+              <input type="text" name="table_search" class="form-control float-right" placeholder="Qidiruv ...">
+
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover text-nowrap">
+            <thead>
+              <tr>
+                <th> Nomi </th>
+                <th> Tili </th>
+                <th> Ta'lim shakli </th>
+                <th> Yo'nalish kodi </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for i in directions %}
+                    <tr>
+                        <td><a href="{% url 'faculty:change_direction' i.pk %}" title="Batafsil ko'rib chiqish">{{ i.name }} </a></td>
+                        <td>{{ i.language }}</td>
+                        <td>{{ i.study_form }}</td>
+                        <td>{{ i.code }}</td>
+                        <td>
+                            {% for j in i.semester_number|times %} 
+                            <a href="{% url 'faculty:study_plan_detail' i.pk j %}" class="btn btn-outline-primary">{{ j }}</a>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'faculty/base.html' %}
+
+{% block head_static %}
+    {% include 'static_plugins/dashboard_head.html' %}
+{% endblock %}
+
+{% block body_static %}
+{% include 'static_plugins/dashboard_body.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <h2 class="headline text-warning"> 404 </h2>
+    <div class="error-content">
+      <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Ushbu sahifa mavjud emas.</h3>
+      <p>
+        <a href="{% url 'faculty:dashboard' %}">
+            <h3>
+                Bosh sahifaga qaytish uchun bosing
+            </h3>
+        </a> 
+      </p>
+    </div>
+  </div>
+{% endblock %}

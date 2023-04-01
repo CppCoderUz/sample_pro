@@ -1,0 +1,253 @@
+{% extends 'faculty/base.html' %}
+
+{% load range %}
+
+{% block body_static %}
+{% include 'static_plugins/form_body.html' %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    for (i = 1; i <= 15; i++) {
+        $(`#js-data-example-ajax-${i}`).select2({
+            ajax: {
+                url: "/faculty/ajax/{{ csrf_token }}/science_list/",
+                type: "POST",
+                dataType: 'json',
+                delay: 100,
+                data: function (params) {
+                    console.log(params.term);
+                    return {
+                        filter: params.term,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    }
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: data.rezult,
+                        pagination: {
+                            more: (params.page * 30) < data.sum_objects,
+                        }
+                    };
+                },
+                cache: true,
+                placeholder: 'Search for a repository',
+                minimumInputLength: 1,
+            }
+        });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% endblock %}
+
+{% block head_static %}
+{% include 'static_plugins/form_head.html' %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    .form-group {
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-control {
+        border-radius: 0;
+        border: 1px solid #000;
+    }
+
+    .select2-selection__rendered {
+        line-height: 38px !important;
+        max-height: 38px;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 38px !important;
+        max-height: 38px;
+        border-radius: 0;
+        border: 1px solid #000;
+        text-align: center;
+    }
+
+    .select2-selection__arrow {
+        height: 38px !important;
+        max-height: 38px;
+    }
+
+    .select2-search__field,
+    .select2-search {
+        border: 2px solid rgb(38, 38, 174);
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card card-info">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-6">
+                        <!-- <h3 class="card-title"> {{ direction }} o'quv rejasi </h3> -->
+                    </div>
+                    <div class="col-6">
+                        <div class="text-danger">{{ form.errors }}</div>
+                    </div>
+                </div>
+            </div>
+            <form method="POST"> {% csrf_token %}
+                <div class="card-body row">
+                    <div class="card-body row" id="data_tables_rows">
+                        <div class="col-6" style="margin: 0; padding: 0; width: 100%;">
+                            <div class="row" style="width: 100%; height: 100%;">
+                                <div class="col-5" style="margin: 0; padding: 0;">
+                                    <p
+                                        style="display: flex;font-weight: bold; padding: 0; margin: 0; justify-content: center; align-items: center; border: 1px solid #333; min-height: 150px;">
+                                        Kod </p>
+                                </div>
+                                <div class="col-7" style="margin: 0; padding: 0;">
+                                    <p
+                                        style="display: flex; font-weight: bold; padding: 0; margin: 0; justify-content: center; align-items: center; border: 1px solid #333; min-height: 150px;">
+                                        Fan nomi </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6" style="margin: 0; padding: 0; width: 100%;">
+                            <div class="row" style="width: 100%; height: 100%;">
+                                <div class="col-2"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 50px; right: -35px; text-align: center; height: 50px; font-weight: bold;">
+                                        Sinov Turi (S/I)
+                                    </p>
+                                </div>
+                                <div class="col-1"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 65px; right: -50px; text-align: center; font-weight: bold;">
+                                        Kredit
+                                    </p>
+                                </div>
+                                <div class="col-1"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 65px; right: -50px; text-align: center; font-weight: bold;">
+                                        Soati
+                                    </p>
+                                </div>
+                                <div class="col-1"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 65px; right: -50px; text-align: center; font-weight: bold;">
+                                        Jami
+                                    </p>
+                                </div>
+                                <div class="col-1"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 65px; right: -50px; text-align: center; font-weight: bold;">
+                                        Ma'ruza
+                                    </p>
+                                </div>
+                                <div class="col-1"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 65px; right: -50px; text-align: center; font-weight: bold;">
+                                        Amaliy
+                                    </p>
+                                </div>
+                                <div class="col-1"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 65px; right: -50px; text-align: center; font-weight: bold;">
+                                        Labaratoriya
+                                    </p>
+                                </div>
+                                <div class="col-1"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 65px; right: -50px; text-align: center; font-weight: bold;">
+                                        Seminar
+                                    </p>
+                                </div>
+                                <div class="col-1"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 65px; right: -50px; text-align: center; font-weight: bold;">
+                                        Malakaviy amaliyot
+                                    </p>
+                                </div>
+                                <div class="col-1"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 65px; right: -50px; text-align: center; font-weight: bold;">
+                                        Kurs ishi
+                                    </p>
+                                </div>
+                                <div class="col-1"
+                                    style="max-height:150px; border:0.5px solid #111; min-height:150px; margin:0; padding:0; position: relative;">
+                                    <p
+                                        style="rotate: -90deg; width: 150px; margin: 0; position: absolute; bottom: 65px; right: -50px; text-align: center; font-weight: bold;">
+                                        Mustaqil ish
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=""
+                            style="text-align: center;  width: 100%; margin: 0; padding: 10px; font-weight: bold;">
+                            {{ semestr_number }} - SEMESTR
+                        </div>
+
+                        {% for i in sum_rows|times %}
+                        <div class="col-6" style="margin: 0; padding: 0; width: 100%;">
+                            <div class="row" style="width: 100%; height: 100%;">
+                                <div class="col-5" style="margin: 0; padding: 0;"><input required type="text"
+                                        name="science_code_{{i}}" class="form-control"></div>
+                                <div class="col-7 form-group" style="margin: 0; padding: 0; height: 100%;"><select
+                                        name="science_{{i}}" id="js-data-example-ajax-{{i}}" required
+                                        class="form-control"></select></div>
+                            </div>
+                        </div>
+                        <div class="col-6" style="margin: 0; padding: 0;">
+                            <div class="row" style="width: 100%; height: 100%;">
+                                <div class="col-2" style="margin: 0; padding: 0;"><input required type="text"
+                                        name="exam_type_{{i}}" class="form-control"></div>
+                                <div class="col-1" style="margin: 0; padding: 0;"><input required type="number"
+                                        name="kredit_{{i}}" class="form-control"></div>
+                                <div class="col-1" style="margin: 0; padding: 0;"><input required type="number"
+                                        name="hours_{{i}}" class="form-control"></div>
+                                <div class="col-1" style="margin: 0; padding: 0;"><input type="number" name="all_{{i}}"
+                                        class="form-control"></div>
+                                <div class="col-1" style="margin: 0; padding: 0;"><input  type="number"
+                                        name="lecture_{{i}}" class="form-control"></div>
+                                <div class="col-1" style="margin: 0; padding: 0;"><input  type="number"
+                                        name="practice_{{i}}" class="form-control"></div>
+                                <div class="col-1" style="margin: 0; padding: 0;"><input  type="number"
+                                        name="lab_{{i}}" class="form-control"></div>
+                                <div class="col-1" style="margin: 0; padding: 0;"><input  type="number"
+                                        name="seminar_{{i}}" class="form-control"></div>
+                                <div class="col-1" style="margin: 0; padding: 0;"><input  type="number"
+                                        name="pro_practice_{{i}}" class="form-control"></div>
+                                <div class="col-1" style="margin: 0; padding: 0;"><input  type="text"
+                                        name="course_work_{{i}}" class="form-control"></div>
+                                <div class="col-1" style="margin: 0; padding: 0;"><input required type="number"
+                                        name="alt_work_{{i}}" class="form-control"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary"> Saqlash </button>
+                        <!-- <button type="button" class="btn btn-primary" id="add_more"> Yangi satr qo'shish </button> -->
+                        </button>
+                    </div>
+                    <input type="hidden" name="students_list" value="_">
+                    <input type="hidden" name="sum_students" id="sum_students" value="{{ sum_students }}">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

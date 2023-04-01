@@ -1,0 +1,11 @@
+
+
+1: 
+    status: dekan
+    login: baxodir
+    password: davirov_12345
+
+2: 
+    status: department_employee
+    login: coder555
+    password: new_baxodir

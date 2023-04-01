@@ -1,0 +1,138 @@
+{% extends 'faculty/base.html' %}
+
+{% block body_static %}
+{% include 'static_plugins/form_body.html' %}
+
+<script>
+  var const_size = Number('{{ sum_students }}');
+  var size = const_size + 0;
+  const sum_students = document.getElementById("sum_students");
+  var list_students = document.getElementById("list_students");
+  document.getElementById('add_more').addEventListener('click', ()=>{
+    size = size + 1;
+    list_students.innerHTML += `
+      <div class="form-group col-4">
+        <input type="text" name="student_set-${size}-first_name" maxlength="100" class="form-control" required id="id_student_set-${size}-first_name">
+      </div>
+      <div class="form-group col-4">
+        <input type="text" name="student_set-${size}-last_name" maxlength="100" class="form-control" required id="id_student_set-${size}-last_name">
+      </div>
+      <div class="form-group col-4">
+        <input type="text" name="student_set-${size}-username" maxlength="100" class="form-control" required id="id_student_set-${size}-username">
+      </div>  
+      `;
+      sum_students.value = String(size);
+  })
+  document.getElementById("minus_more").addEventListener('click', ()=>{
+    if (size === const_size) {}
+    else {
+      size  = size - 1
+      for (i = 0; i < 3; i++) 
+        list_students.removeChild(list_students.lastElementChild)
+      sum_students.value = String(size);
+    }
+  })
+</script>
+
+{% endblock %}
+
+{% block head_static %}
+{% include 'static_plugins/form_head.html' %}
+<style>
+  .form-group {
+    margin: 0;
+    padding: 0;
+  } 
+  .form-group > input {
+    border-radius: 0;
+  } 
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="card card-primary">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-4">
+            <h3 class="card-title"> Barcha bandlar to'ldirilishi shart ! </h3>
+          </div>
+          <div class="col-4">
+            <div class="text-danger">{{ form.errors }}</div>
+          </div>
+          <form action="{% url 'faculty:delete_group' object.pk %}" method="POST" class="col-4">
+            {% csrf_token %}
+            <button type="submit" style="width: 100%;" class="btn btn-danger">O'chirish</button>
+          </form>
+        </div>
+      </div>
+      <form method="POST"> {% csrf_token %}
+        <div class="card-body row">
+          <div class="form-group col-md-6">
+            <label for="exampleInputEmail1"> Guruh nomini kiriting </label>
+            {{ form.name }}
+          </div>
+          <div class="form-group col-md-6 col-12">
+            <label for="exampleSelectRounded0"> Yo'nalishni tanlang </label>
+            {{ form.direction }}
+          </div>
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary"> Saqlash </button>
+        </div>
+        <input type="hidden" name="status_update" value="_">
+      </form>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card card-info">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-6">
+            <h3 class="card-title"> Ushbu guruh talabalari </h3>
+          </div>
+          <div class="col-6">
+            <div class="text-danger">{{ form.errors }}</div>
+          </div>
+        </div>
+      </div>
+      <form method="POST"> {% csrf_token %} 
+        <div class="card-body row">
+          <div class="form-group col-4">
+            <h4> Ism </h4>
+          </div>
+          <div class="form-group col-4">
+            <h4> Familya </h4>
+          </div>
+          <div class="form-group col-4">
+            <h4>Talaba ID</h4>
+          </div>
+
+          <div class="row" style="width: 100%;" id="list_students">
+            <!-- Talabalar ro'yxati turadi -->         
+            {% for i in formset_students %}
+            <div class="form-group col-4">
+              {{ i.first_name }}
+            </div>
+            <div class="form-group col-4">
+              {{i.last_name}}
+            </div>
+            <div class="form-group col-4">
+              {{i.username}}
+            </div>
+              {% endfor %}
+          </div>
+         
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary"> Saqlash </button>
+          <button type="button" class="btn btn-primary" id="add_more" > Yangi o'quvchi qo'shish </button>
+          <button type="button" class="btn btn-primary" id="minus_more" > Oxirgi satrni olib tashlash </button>
+        </div>
+        <input type="hidden" name="students_list" value="_">
+        <input type="hidden" name="sum_students" id="sum_students" value="{{sum_students}}">
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

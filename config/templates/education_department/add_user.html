@@ -1,0 +1,62 @@
+{% extends 'education_department/base.html' %}
+
+{% block body_static %}
+    {% include 'static_plugins/form_body.html' %}
+{% endblock %}
+{% block head_static %}
+    {% include 'static_plugins/form_head.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+      <div class="card card-primary">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-6"><h3 class="card-title"> Barcha bandlar to'ldirilishi shart ! </h3></div>
+            <div class="col-6"><div class="text-danger">{{ error_msg }}</div></div>
+          </div>
+        </div>
+        <form method="POST" novalidate> {% csrf_token %}
+          <div class="card-body row">
+            <div class="form-group col-md-6">
+              <label for="first_name"> Ism </label>
+              <input type="text" name="first_name" class="form-control" id="first_name" value="{{ data.first_name }}">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="last_name"> Familya </label>
+                <input type="text" name="last_name" class="form-control" id="last_name" value="{{data.last_name}}">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="email"> Email manzili </label>
+                <input type="email" name="email" class="form-control" id="email" value="{{data.email}}">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="username"> Login / Xodim ID </label>
+                <input type="text" name="username" class="form-control" id="username" value="{{data.username}}">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="password_1"> Kirishni tasdiqlash paroli </label>
+                <input type="password" name="password_1" class="form-control" id="password_1" value="{{data.password_1}}">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="password_2"> Parolni takror kiriting ! </label>
+                <input type="password" name="password_2" class="form-control" id="password_2" value="{{data.password_2}}">
+              </div>
+              <div class="form-group col-md-6 col-12">
+                <label for="lavozim"> Lavozimini tanlang </label>
+                <select class="custom-select rounded-0" id="lavozim" name="lavozim_id">
+                  <option selected disabled value=""> ... </option>  
+                    <option value="65b4y4b7t4nh587"> Mudir </option>
+                    <option value="45nvt547y54nt8h"> Dekan </option>
+                </select>
+              </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary"> Saqlash </button>
+          </div>
+        </form>
+      </div>
+    </div>    
+  </div>
+{% endblock %}
